@@ -10,9 +10,8 @@ def main(input, output):
 	wrong_data = []
 	with codecs.open(input, encoding="utf-8") as f:
 		for row in f.readlines():
-			eid,reason,name = row.strip().split('\t')
+			eid, id, name, reason, baike_url = row.strip().split('\t')
 			lev_dis = Levenshtein.distance(name.lower(), reason.lower())
-
 			lreason = len(reason)
 			lname = len(name)
 			shorter = min(lreason, lname)
@@ -21,10 +20,11 @@ def main(input, output):
 				continue
 			longer = max(lreason, lname)
 			len_dis = longer - shorter
-
+			if len_dis >= 4:
+				continue;
 			coff = float(lev_dis - len_dis)/shorter
-			if coff < 0.5:
-				result.append([eid, name, reason, str(coff)])
+			if coff < 0.1:
+				result.append([eid, name, reason, baike_url, str(coff)])
 
 	with codecs.open(output, 'w', encoding='utf-8') as co:
 		for row in result:
