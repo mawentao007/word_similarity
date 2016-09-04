@@ -1,4 +1,5 @@
 #coding=utf8
+#对同一个实体的多个推荐理由进行去重
 id2reasons = {}
 
 with open("./data/reason_status") as f:
